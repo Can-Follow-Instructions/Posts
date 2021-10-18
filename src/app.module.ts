@@ -7,6 +7,10 @@ import { UsersModule } from './users/users.module';
 import { AddressesModule } from './addresses/addresses.module';
 import { User } from './users/entities/user.entity';
 import { Address } from './addresses/entities/address.entity';
+import { Post } from './posts/entities/post.entity';
+import { PostsModule } from './posts/posts.module';
+import { Discussion } from './discussions/entities/discussion.entity';
+import { DiscussionsModule } from './discussions/discussions.module';
 
 @Module({
   imports: [
@@ -18,11 +22,13 @@ import { Address } from './addresses/entities/address.entity';
       username: process.env.DATABASE_USER || 'root',
       password: process.env.DATABASE_PASSWORD || 'passwd',
       database: process.env.DATABASE_NAME || 'test',
-      entities: [Address, User],
+      entities: [Address, User, Post],
       synchronize: true, // only for dev
     }),
     UsersModule,
     AddressesModule,
+    PostsModule,
+    //DiscussionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
