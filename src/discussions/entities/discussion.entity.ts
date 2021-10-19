@@ -1,13 +1,11 @@
-import { Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from '../../users/entities/user.entity';
 import { Post } from '../../posts/entities/post.entity';
 
+@Entity()
 export class Discussion {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Column()
-  topicId: number;
 
   @Column()
   commentId: number;
@@ -18,9 +16,9 @@ export class Discussion {
   @Column()
   createTime: Date;
 
-  @ManyToOne(() => User, (user) => user.posts)
+  @ManyToOne(() => User, (user) => user.discussions)
   user: User;
 
-  // @ManyToOne(() => Post, (post) => post.discussions)
-  // post: Post;
+  @ManyToOne(() => Post, (post) => post.discussions)
+  post: Post;
 }
