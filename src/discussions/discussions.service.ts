@@ -26,11 +26,27 @@ export class DiscussionsService {
     return this.discussionRepository.findOne(id);
   }
 
-  findByPostId(id: number) {
+  async findByPostId(id: number) {
     const query = this.discussionRepository.createQueryBuilder('discussion');
     query.leftJoinAndSelect('discussion.post', 'post')
       .where('post.id = :postId', {postId: id })
-    return query.getMany();
+    let tmpResult = await query.getMany();
+    let nodes = {};
+    nodes[0] = {
+      replies: []
+    };
+
+    tmpResult.forEach(function(item) {
+      nodes[item.id] = item;
+      item.replies = [];
+    });
+
+    tmpResult.forEach(function(item) {
+      let parent = nodes[item.commentId];
+      parent.replies.push(item);
+    });
+
+    return nodes[0].replies;
 
   }
 

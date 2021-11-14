@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 import { Post } from '../../posts/entities/post.entity';
 
@@ -21,4 +21,6 @@ export class Discussion {
 
   @ManyToOne(() => Post, (post) => post.discussions)
   post: Post;
+
+  replies: Discussion[];
 }
