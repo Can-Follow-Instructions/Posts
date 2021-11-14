@@ -9,26 +9,36 @@ import { Discussion } from './entities/discussion.entity';
 export class DiscussionsService {
   constructor(
     @InjectRepository(Discussion)
-    private postRepository: Repository<Discussion>,
+    private discussionRepository: Repository<Discussion>,
   ) {}
 
   create(createDiscussionDto: CreateDiscussionDto) {
-    return this.postRepository.save(this.postRepository.create(createDiscussionDto));
+    return this.discussionRepository.save(
+      this.discussionRepository.create(createDiscussionDto),
+    );
   }
 
   findAll() {
-    return this.postRepository.find();
+    return this.discussionRepository.find();
   }
 
   findOne(id: number) {
-    return this.postRepository.findOne(id);
+    return this.discussionRepository.findOne(id);
+  }
+
+  findByPostId(id: number) {
+    const query = this.discussionRepository.createQueryBuilder('discussion');
+    query.leftJoinAndSelect('discussion.post', 'post')
+      .where('post.id = :postId', {postId: id })
+    return query.getMany();
+
   }
 
   update(id: number, updateDiscussionDto: UpdateDiscussionDto) {
-    return this.postRepository.update(id, updateDiscussionDto);
+    return this.discussionRepository.update(id, updateDiscussionDto);
   }
 
   remove(id: number) {
-    return this.postRepository.delete(id);
+    return this.discussionRepository.delete(id);
   }
 }
