@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsEmail } from 'class-validator';
-import { User } from '../../users/entities/user.entity';
+import { IsDate } from 'class-validator';
 
 export class CreatePostDto {
   @ApiProperty()
@@ -11,5 +10,5 @@ export class CreatePostDto {
   @ApiProperty()
   createTime: Date;
   @ApiProperty()
-  user: User;
+  user: number;
 }
