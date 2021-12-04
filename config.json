@@ -1,0 +1,6 @@
+{
+  "accessKeyId": "AKIAVNHTBV6LH7YS273H",
+  "secretAccessKey": "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",
+  "region": "us-east-1",
+  "snsTopicArn": "arn:aws:sns:us-east-1:372024389526:6156SNSTopic"
+}
