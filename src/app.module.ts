@@ -1,14 +1,18 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { Post } from './posts/entities/post.entity';
 import { PostsModule } from './posts/posts.module';
+import { NotificationMiddleware } from './notification.middleware';
+import { PostsController } from './posts/posts.controller';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      envFilePath: '.awsSNS.env',
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DATABASE_HOST || 'localhost',
@@ -24,4 +28,11 @@ import { PostsModule } from './posts/posts.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(NotificationMiddleware).forRoutes({
+      path: 'posts',
+      method: RequestMethod.POST,
+    });
+  }
+}

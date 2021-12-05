@@ -10,5 +10,5 @@ export class CreatePostDto {
   @ApiProperty()
   createTime: Date;
   @ApiProperty()
-  user: number;
+  userId: number;
 }
