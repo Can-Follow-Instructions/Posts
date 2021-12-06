@@ -31,4 +31,8 @@ export class PostsService {
   remove(id: number) {
     return this.postRepository.delete(id);
   }
+
+  findByUser(userId: number) {
+    return this.postRepository.find({ where: { userId } });
+  }
 }
